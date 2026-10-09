@@ -1,0 +1,33 @@
+{
+  "name": "spark-compatible-agent-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local, harness-independent Spark-compatible agent runtime MVP.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-migrations.mjs && printf \"import { main } from './src/cli.js';\\nprocess.exitCode = main();\\n\" > dist/cli.js",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"web/src/**/*.ts\" \"web/index.html\" \"web/vite.config.ts\" \"schemas/**/*.json\" \"policies/*.yaml\" \"docs/**/*.md\" package.json tsconfig.json prettier.config.js README.md",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\" \"web/src/**/*.ts\" \"web/index.html\" \"web/vite.config.ts\" \"schemas/**/*.json\" \"policies/*.yaml\" \"docs/**/*.md\" package.json tsconfig.json prettier.config.js README.md",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "npm run build && npm run web:build && node --test dist/tests/*.test.js",
+    "verify:external-agents": "npm run build && node scripts/verify-external-agents.mjs",
+    "verify:release": "npm run build && node scripts/verify-release.mjs",
+    "cli": "npm run build && node dist/cli.js",
+    "spark-cli": "npm run build && node dist/src/spark-cli.js",
+    "api": "npm run build && node dist/src/api-cli.js",
+    "web:dev": "cd web && npm run dev",
+    "web:build": "cd web && npm run build",
+    "demo": "npm run build && node dist/cli.js demo",
+    "daemon": "npm run build && node dist/src/daemon-cli.js",
+    "ui": "npm run build && node dist/src/ui-cli.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
+  },
+  "license": "MIT"
+}

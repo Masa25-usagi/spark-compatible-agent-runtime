@@ -1,0 +1,96 @@
+version: 1
+profile: spark-public-parity-plus
+description: Public-behavior safety profile with extra confirmation for bulk Google Tasks changes.
+decision_order:
+  - prohibited
+  - take_control
+  - secret_payload
+  - dangerous_shell
+  - external_side_effect
+  - automatic_safe_operation
+  - default_deny
+
+automatic_safe_operations:
+  - read
+  - search
+  - summarize
+  - analyze
+  - create_file
+  - draft
+
+approval_operations:
+  - send_email
+  - send_message
+  - publish_post
+  - edit_data
+  - delete_to_trash
+  - delete_permanently
+  - submit_form
+  - purchase
+  - contract
+  - charge
+  - edit_shared_document
+  - transmit_sensitive
+
+take_control_operations:
+  - enter_secret
+  - authentication
+  - payment
+  - two_factor
+  - captcha
+
+prohibited_operations:
+  - prohibited
+
+shell:
+  approval_required_for:
+    - sudo
+    - destructive_file_operation
+    - package_installation
+    - downloaded_code_execution
+    - git_history_rewrite
+    - disk_or_boot_change
+    - system_setting_change
+    - external_network_transmission
+  prohibited_patterns:
+    - destructive_system_command
+    - harmful_command
+
+secret_handling:
+  policy: take_control_or_redact
+  audit_persistence: never_store_raw_secret_material
+
+approval:
+  just_in_time: true
+  bind_to: canonical_action_digest
+  digest_algorithm: SHA-256
+  ttl_ms: 300000
+  one_time: true
+  target_change_invalidates: true
+  deletion_is_session_wide: false
+  required_disclosure_fields:
+    - operation
+    - target
+    - before_after_summary
+    - item_count
+    - data_size_bytes_when_relevant
+    - recipient
+    - amount
+    - reversibility
+    - undo_method
+    - tool
+    - connector
+    - originating_task
+
+google_tasks_bulk_operations:
+  connector: google-tasks
+  operations:
+    - edit_data
+    - delete_to_trash
+    - delete_permanently
+  minimum_item_count: 2
+  require_approval: true
+  explicit_confirmation: true
+
+connectors:
+  external_mutations_are_simulated: true

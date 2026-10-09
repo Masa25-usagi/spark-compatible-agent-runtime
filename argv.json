@@ -1,0 +1,1 @@
+["/usr/local/bin/node","/var/folders/gd/w5st398d79j5cc9j749l04sm0000gp/T/spark-dispatch-args-ObIwXK/fake-agy","--print","以下の指示を実行し、最後に短い日本語の結果の要約を出力してください。\n検証できない外部への副作用を実行したと主張しないでください。\n外部への副作用を実行する前に、必ず一時停止してユーザーの確認を求めてください。\n\n指示：\nArgs test\n","--mode","accept-edits","--new-project","--add-dir",".","--print-timeout","300s","--model","gemini-3.5-flash-high"]

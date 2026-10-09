@@ -1,0 +1,15 @@
+{
+  "name": "Spark Runtime UI",
+  "short_name": "Spark UI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1118",
+  "theme_color": "#8ab4f8",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

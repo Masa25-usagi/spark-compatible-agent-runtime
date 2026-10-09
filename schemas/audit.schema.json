@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:spark-compatible-agent-runtime:audit",
+  "title": "Spark-compatible audit event",
+  "description": "Redacted, hash-chained audit event persisted by the runtime.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "timestamp",
+    "taskId",
+    "agent",
+    "model",
+    "harness",
+    "tool",
+    "args",
+    "approval",
+    "decision",
+    "result",
+    "changedTargets",
+    "undoGuidance",
+    "previousHash",
+    "eventHash"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "harness": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool": {
+      "type": "string",
+      "minLength": 1
+    },
+    "args": {
+      "$ref": "#/$defs/jsonValue"
+    },
+    "approval": {
+      "$ref": "#/$defs/jsonValue"
+    },
+    "decision": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "enum": ["allow", "require_approval", "take_control", "deny"]
+        }
+      ]
+    },
+    "result": {
+      "$ref": "#/$defs/jsonValue"
+    },
+    "changedTargets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "undoGuidance": {
+      "type": ["string", "null"]
+    },
+    "previousHash": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      ]
+    },
+    "eventHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "$defs": {
+    "jsonValue": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        }
+      ]
+    }
+  }
+}

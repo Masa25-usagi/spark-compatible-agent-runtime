@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:spark-compatible-agent-runtime:task",
+  "title": "Spark-compatible task record",
+  "description": "Persisted task state exposed by the harness-neutral runtime.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "instruction",
+    "status",
+    "profile",
+    "agent",
+    "model",
+    "harness",
+    "createdAt",
+    "updatedAt",
+    "currentStep",
+    "plannedSteps",
+    "completedSteps",
+    "pendingSteps",
+    "usedSkills",
+    "usedConnectors",
+    "filesRead",
+    "filesCreated",
+    "filesChanged",
+    "pendingApprovalIds",
+    "errors",
+    "retries",
+    "stopReason",
+    "takeControlReason"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "instruction": {
+      "type": ["string", "null"]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "running",
+        "waiting_for_approval",
+        "take_control",
+        "stopped",
+        "completed",
+        "failed"
+      ]
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["spark-public-parity", "spark-public-parity-plus"]
+    },
+    "agent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "harness": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "currentStep": {
+      "type": "string"
+    },
+    "plannedSteps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "completedSteps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pendingSteps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "usedSkills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "usedConnectors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "filesRead": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "filesCreated": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "filesChanged": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pendingApprovalIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "retries": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stopReason": {
+      "type": ["string", "null"]
+    },
+    "takeControlReason": {
+      "type": ["string", "null"]
+    }
+  }
+}

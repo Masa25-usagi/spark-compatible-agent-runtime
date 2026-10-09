@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:spark-compatible-agent-runtime:action",
+  "title": "Spark-compatible action specification",
+  "description": "Canonical action input used by policy evaluation and approval binding.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "taskId", "tool", "connector", "operation", "target", "originatingTask"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "read",
+        "search",
+        "summarize",
+        "analyze",
+        "create_file",
+        "draft",
+        "send_email",
+        "send_message",
+        "publish_post",
+        "edit_data",
+        "delete_to_trash",
+        "delete_permanently",
+        "submit_form",
+        "purchase",
+        "contract",
+        "charge",
+        "edit_shared_document",
+        "transmit_sensitive",
+        "shell",
+        "enter_secret",
+        "authentication",
+        "payment",
+        "two_factor",
+        "captcha",
+        "prohibited"
+      ]
+    },
+    "target": {
+      "$ref": "#/$defs/jsonValue"
+    },
+    "payload": {
+      "$ref": "#/$defs/jsonValue"
+    },
+    "before": {
+      "$ref": "#/$defs/jsonValue"
+    },
+    "after": {
+      "$ref": "#/$defs/jsonValue"
+    },
+    "itemCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "dataSizeBytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "recipient": {
+      "type": "string",
+      "minLength": 1
+    },
+    "amount": {
+      "$ref": "#/$defs/amount"
+    },
+    "reversible": {
+      "type": "boolean"
+    },
+    "undoMethod": {
+      "type": "string",
+      "minLength": 1
+    },
+    "originatingTask": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "jsonValue": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/jsonValue"
+          }
+        }
+      ]
+    },
+    "amount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "value"],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

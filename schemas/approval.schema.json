@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:spark-compatible-agent-runtime:approval",
+  "title": "Spark-compatible approval record",
+  "description": "One expiring, digest-bound approval request for one action.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "taskId",
+    "actionId",
+    "actionDigest",
+    "action",
+    "status",
+    "confirmationRequired",
+    "disclosure",
+    "createdAt",
+    "expiresAt",
+    "decidedAt",
+    "decidedBy",
+    "decisionReason",
+    "consumedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actionDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "action": {
+      "$ref": "action.schema.json"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "approved", "denied", "consumed", "expired"]
+    },
+    "confirmationRequired": {
+      "type": "boolean"
+    },
+    "disclosure": {
+      "$ref": "#/$defs/disclosure"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decidedAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "decidedBy": {
+      "type": ["string", "null"]
+    },
+    "decisionReason": {
+      "type": ["string", "null"]
+    },
+    "consumedAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "amount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "value"],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "disclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "targetSummary",
+        "beforeSummary",
+        "afterSummary",
+        "itemCount",
+        "dataSizeBytes",
+        "recipient",
+        "amount",
+        "reversible",
+        "undoMethod",
+        "tool",
+        "connector",
+        "originatingTask"
+      ],
+      "properties": {
+        "operation": {
+          "type": "string",
+          "enum": [
+            "read",
+            "search",
+            "summarize",
+            "analyze",
+            "create_file",
+            "draft",
+            "send_email",
+            "send_message",
+            "publish_post",
+            "edit_data",
+            "delete_to_trash",
+            "delete_permanently",
+            "submit_form",
+            "purchase",
+            "contract",
+            "charge",
+            "edit_shared_document",
+            "transmit_sensitive",
+            "shell",
+            "enter_secret",
+            "authentication",
+            "payment",
+            "two_factor",
+            "captcha",
+            "prohibited"
+          ]
+        },
+        "targetSummary": {
+          "type": "string"
+        },
+        "beforeSummary": {
+          "type": "string"
+        },
+        "afterSummary": {
+          "type": "string"
+        },
+        "itemCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dataSizeBytes": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "recipient": {
+          "type": ["string", "null"]
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/amount"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reversible": {
+          "type": "boolean"
+        },
+        "undoMethod": {
+          "type": ["string", "null"]
+        },
+        "tool": {
+          "type": "string",
+          "minLength": 1
+        },
+        "connector": {
+          "type": "string",
+          "minLength": 1
+        },
+        "originatingTask": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
