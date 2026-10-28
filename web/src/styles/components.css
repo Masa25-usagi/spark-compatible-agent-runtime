@@ -383,6 +383,13 @@ select.input {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay,
+  .modal-card {
+    animation: none;
+  }
+}
+
 @keyframes slide-up {
   from {
     transform: translateY(100%);
