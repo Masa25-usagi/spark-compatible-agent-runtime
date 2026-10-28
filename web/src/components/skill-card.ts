@@ -7,14 +7,14 @@ export function createSkillCard(skill: SkillRecord, onToggle?: () => void): HTML
   el.className = 'card animate-slide-in';
 
   el.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-      <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); font-size: 1.1rem; font-weight: 600;">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem; gap: 0.75rem;">
+      <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); font-size: 1.05rem; font-weight: 600;">
         ${escapeHtml(skill.name)}
       </h3>
-      <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
-        <input type="checkbox" id="toggle-skill-${encodeURIComponent(skill.name)}" ${skill.enabled ? 'checked' : ''} style="opacity: 0; width: 0; height: 0;">
-        <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-elevated); transition: .4s; border-radius: 24px; border: 1px solid var(--border);">
-          <span style="position: absolute; height: 18px; width: 18px; left: 2px; bottom: 2px; background-color: ${skill.enabled ? 'var(--primary)' : 'var(--text-tertiary)'}; transition: .4s; border-radius: 50%; transform: translateX(${skill.enabled ? '20px' : '0'});"></span>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-skill-${encodeURIComponent(skill.name)}" ${skill.enabled ? 'checked' : ''}>
+        <span class="toggle-track" style="${skill.enabled ? 'background-color: var(--primary); border-color: var(--primary);' : ''}">
+          <span class="toggle-thumb" style="transform: translateX(${skill.enabled ? '20px' : '0'});"></span>
         </span>
       </label>
     </div>
@@ -25,16 +25,19 @@ export function createSkillCard(skill: SkillRecord, onToggle?: () => void): HTML
   `;
 
   const checkbox = el.querySelector('input')!;
+  const track = el.querySelector('.toggle-track') as HTMLElement;
+  const thumb = el.querySelector('.toggle-thumb') as HTMLElement;
   checkbox.addEventListener('change', async () => {
     try {
       await api.toggleSkill(skill.name);
-      const thumb = el.querySelector('span > span') as HTMLElement;
       if (checkbox.checked) {
         thumb.style.transform = 'translateX(20px)';
-        thumb.style.backgroundColor = 'var(--primary)';
+        track.style.backgroundColor = 'var(--primary)';
+        track.style.borderColor = 'var(--primary)';
       } else {
         thumb.style.transform = 'translateX(0)';
-        thumb.style.backgroundColor = 'var(--text-tertiary)';
+        track.style.backgroundColor = '';
+        track.style.borderColor = '';
       }
       if (onToggle) onToggle();
     } catch (e) {

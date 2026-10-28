@@ -253,32 +253,38 @@ export async function renderTaskDetail(id: string): Promise<HTMLElement> {
       // Warnings or alerts
       if (task.status === 'stopped') {
         alertPanel.innerHTML = `
-          <div class="card" style="background: rgba(249, 171, 0, 0.08); border: 1px solid rgba(249, 171, 0, 0.3); padding: 1rem; border-radius: var(--radius-md);">
-            <h4 style="margin:0 0 0.5rem; color: var(--status-pending);">タスクは一時停止されました</h4>
-            <p style="margin:0; font-size:0.9rem; color: var(--text-secondary);">理由: ${escapeHtml(task.stopReason || 'ユーザーによる指示')}</p>
+          <div class="alert-banner alert-banner-warning" style="align-items: flex-start;">
+            <div>
+              <h4 style="margin:0 0 0.5rem; color: var(--status-pending);">タスクは一時停止されました</h4>
+              <p style="margin:0; font-size:0.9rem; color: var(--text-secondary);">理由: ${escapeHtml(task.stopReason || 'ユーザーによる指示')}</p>
+            </div>
           </div>
         `;
       } else if (task.status === 'take_control') {
         alertPanel.innerHTML = `
-          <div class="card" style="background: rgba(234, 67, 53, 0.08); border: 1px solid rgba(234, 67, 53, 0.3); padding: 1rem; border-radius: var(--radius-md);">
-            <h4 style="margin:0 0 0.5rem; color: var(--status-error);">システム介入要求 (Take Control)</h4>
-            <p style="margin:0 0 0.5rem; font-size:0.9rem; color: var(--text-secondary);">理由: ${escapeHtml(task.takeControlReason || '秘密データの入力要求など')}</p>
-            <p style="margin:0; font-size:0.8rem; color: var(--status-error);">安全のため自動的に処理を中断しました。再開ボタンを押す前に状態を確認してください。</p>
+          <div class="alert-banner alert-banner-error" style="align-items: flex-start;">
+            <div>
+              <h4 style="margin:0 0 0.5rem; color: var(--status-error);">システム介入要求 (Take Control)</h4>
+              <p style="margin:0 0 0.5rem; font-size:0.9rem; color: var(--text-secondary);">理由: ${escapeHtml(task.takeControlReason || '秘密データの入力要求など')}</p>
+              <p style="margin:0; font-size:0.8rem; color: var(--status-error);">安全のため自動的に処理を中断しました。再開ボタンを押す前に状態を確認してください。</p>
+            </div>
           </div>
         `;
       } else if (task.status === 'failed') {
         const errorMsg =
           task.errors && task.errors.length > 0 ? task.errors.join('\n') : '未知のエラー';
         alertPanel.innerHTML = `
-          <div class="card" style="background: rgba(234, 67, 53, 0.08); border: 1px solid rgba(234, 67, 53, 0.3); padding: 1rem; border-radius: var(--radius-md);">
-            <h4 style="margin:0 0 0.5rem; color: var(--status-error);">タスクが異常終了（失敗）しました</h4>
-            <p style="margin:0; font-size:0.9rem; font-family: monospace; color: var(--text-primary); white-space: pre-wrap;">${escapeHtml(errorMsg)}</p>
+          <div class="alert-banner alert-banner-error" style="align-items: flex-start;">
+            <div style="min-width: 0; flex: 1;">
+              <h4 style="margin:0 0 0.5rem; color: var(--status-error);">タスクが異常終了（失敗）しました</h4>
+              <p style="margin:0; font-size:0.9rem; font-family: monospace; color: var(--text-primary); white-space: pre-wrap; overflow-wrap: anywhere;">${escapeHtml(errorMsg)}</p>
+            </div>
           </div>
         `;
       } else if (task.status === 'waiting_for_approval') {
         alertPanel.innerHTML = `
-          <div class="card" style="background: rgba(249, 171, 0, 0.08); border: 1px solid rgba(249, 171, 0, 0.3); padding: 1rem; border-radius: var(--radius-md);">
-            <h4 style="margin:0; color: var(--status-pending);">安全確認のため、承認を待機しています</h4>
+          <div class="alert-banner alert-banner-warning">
+            <h4 style="margin:0; color: var(--status-pending); font-size: 0.95rem;">安全確認のため、承認を待機しています</h4>
           </div>
         `;
       }
@@ -289,7 +295,7 @@ export async function renderTaskDetail(id: string): Promise<HTMLElement> {
 
       if (isStoppable) {
         controlButtons.innerHTML = `
-          <button class="btn btn-secondary" id="btn-stop" style="color: var(--status-error); border-color: var(--status-error); font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
+          <button class="btn btn-danger-outline" id="btn-stop" style="font-weight: 700; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
             タスクを一時停止する
           </button>
         `;
@@ -448,7 +454,7 @@ export async function renderTaskDetail(id: string): Promise<HTMLElement> {
 
       if (isDispatching) {
         dispatchControlsContainer.innerHTML = `
-          <button id="btn-cancel-dispatch" class="btn btn-secondary" style="color: var(--status-error); border-color: var(--status-error); font-weight: bold; width: 100%;">
+          <button id="btn-cancel-dispatch" class="btn btn-danger-outline" style="font-weight: 700; width: 100%;">
             実行キャンセル
           </button>
         `;
@@ -544,7 +550,7 @@ export async function renderTaskDetail(id: string): Promise<HTMLElement> {
     }
   }
 
-  let refreshInterval: NodeJS.Timeout | null = null;
+  let refreshInterval: ReturnType<typeof setInterval> | null = null;
 
   function startAutoRefresh() {
     if (refreshInterval) return;

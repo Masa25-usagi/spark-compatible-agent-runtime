@@ -53,7 +53,7 @@ export function renderHelp(): HTMLElement {
     </div>
 
     <div style="text-align: center; margin-top: 2rem;">
-      <a href="#/" class="btn btn-primary" style="display: inline-block; padding: 0.75rem 2rem; border-radius: var(--radius-md); font-weight: bold; background: var(--primary); color: #fff; text-decoration: none;">
+      <a href="#/" class="btn btn-primary" style="display: inline-flex; padding: 0.75rem 2rem; font-weight: 700; text-decoration: none;">
         ホーム画面へ戻る
       </a>
     </div>

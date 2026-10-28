@@ -80,10 +80,12 @@ export async function renderDashboard(): Promise<HTMLElement> {
       approvalsList.innerHTML = '';
       aiUsageContainer.innerHTML = '';
 
-      // Render stats cards without emojis
-      statsGrid.appendChild(createDashboardCard('総タスク数', data.stats.taskCount));
-      statsGrid.appendChild(createDashboardCard('実行中タスク数', data.stats.runningCount));
-      statsGrid.appendChild(createDashboardCard('承認待ち操作数', data.stats.pendingApprovalCount));
+      // Render stats cards with icons
+      statsGrid.appendChild(createDashboardCard('総タスク数', data.stats.taskCount, 'list'));
+      statsGrid.appendChild(createDashboardCard('実行中タスク数', data.stats.runningCount, 'activity'));
+      statsGrid.appendChild(
+        createDashboardCard('承認待ち操作数', data.stats.pendingApprovalCount, 'shield'),
+      );
 
       // Render AI usage status panel
       if (providersData.providers && providersData.providers.length > 0) {
@@ -120,24 +122,24 @@ export async function renderDashboard(): Promise<HTMLElement> {
       // Next Action Suggestion
       if (data.pendingApprovals.length > 0) {
         nextActionContainer.innerHTML = `
-          <div class="card" style="border: 2px solid var(--status-pending); background: rgba(249, 171, 0, 0.05); padding: 1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-radius: var(--radius-md);">
+          <div class="alert-banner alert-banner-warning" style="justify-content: space-between;">
             <div style="font-size: 0.9rem;">
-              <span style="font-weight: bold; color: var(--status-pending);">次に行うこと:</span>
+              <span style="font-weight: 700; color: var(--status-pending);">次に行うこと:</span>
               エージェントが作業の承認を待っています。安全確認を行って実行を許可してください。
             </div>
-            <a href="#/approvals" class="btn btn-primary" style="background: var(--status-pending); color: #000; font-weight: bold; padding: 0.5rem 1rem; border-radius: var(--radius-sm); text-decoration: none;">
+            <a href="#/approvals" class="btn btn-primary" style="background: var(--status-pending); color: #000; font-weight: 700; padding: 0.5rem 1rem; text-decoration: none;">
               承認待ちを確認する (${data.pendingApprovals.length}件)
             </a>
           </div>
         `;
       } else {
         nextActionContainer.innerHTML = `
-          <div class="card" style="border: 2px solid var(--primary); background: rgba(26, 115, 232, 0.05); padding: 1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-radius: var(--radius-md);">
+          <div class="alert-banner alert-banner-info" style="justify-content: space-between;">
             <div style="font-size: 0.9rem;">
-              <span style="font-weight: bold; color: var(--primary);">次に行うこと:</span>
+              <span style="font-weight: 700; color: var(--primary);">次に行うこと:</span>
               現在、承認待ちの操作はありません。新しいタスクを作成してエージェントに指示を出しましょう。
             </div>
-            <a href="#/tasks?new=true" class="btn btn-primary" style="background: var(--primary); color: #fff; font-weight: bold; padding: 0.5rem 1rem; border-radius: var(--radius-sm); text-decoration: none;">
+            <a href="#/tasks?new=true" class="btn btn-primary" style="font-weight: 700; padding: 0.5rem 1rem; text-decoration: none;">
               新しいタスクを作る
             </a>
           </div>
@@ -174,7 +176,7 @@ export async function renderDashboard(): Promise<HTMLElement> {
       approvalsList.innerHTML = '';
       nextActionContainer.innerHTML = '';
       aiUsageContainer.innerHTML = '';
-      container.innerHTML += `<div style="color: var(--status-error); padding: 1rem; text-align: center;">データの読み込みに失敗しました。接続や認証トークンを確認してください。</div>`;
+      container.innerHTML += `<div class="alert-banner alert-banner-error" style="justify-content: center; margin-top: 1rem;">データの読み込みに失敗しました。接続や認証トークンを確認してください。</div>`;
     }
   }
 

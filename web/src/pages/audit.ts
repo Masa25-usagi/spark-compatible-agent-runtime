@@ -30,12 +30,12 @@ export async function renderAudit(): Promise<HTMLElement> {
     try {
       const [events, verification] = await Promise.all([api.getAudit(), api.verifyAudit()]);
 
-      // Render verification banner without emojis
+      // Render verification banner
       verificationBanner.innerHTML = '';
       if (verification.valid) {
         verificationBanner.innerHTML = `
-          <div class="card" style="background: rgba(30, 142, 62, 0.08); border: 1px solid rgba(30, 142, 62, 0.3); display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: var(--radius-md);">
-            <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--status-complete);"></div>
+          <div class="alert-banner alert-banner-success">
+            <span class="status-dot status-dot-complete"></span>
             <div>
               <h3 style="margin: 0; color: var(--status-complete); font-size: 1rem; font-weight: 600;">監査証跡の整合性を検証済み</h3>
               <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem;">
@@ -46,8 +46,8 @@ export async function renderAudit(): Promise<HTMLElement> {
         `;
       } else {
         verificationBanner.innerHTML = `
-          <div class="card" style="background: rgba(217, 30, 37, 0.08); border: 1px solid rgba(217, 30, 37, 0.3); display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: var(--radius-md);">
-            <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--status-error);"></div>
+          <div class="alert-banner alert-banner-error">
+            <span class="status-dot status-dot-error"></span>
             <div>
               <h3 style="margin: 0; color: var(--status-error); font-size: 1rem; font-weight: 600;">監査証跡の整合性検証に失敗</h3>
               <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem;">
