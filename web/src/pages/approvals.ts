@@ -27,8 +27,8 @@ export async function renderApprovals(): Promise<HTMLElement> {
 
       if (approvals.length === 0) {
         list.innerHTML = `
-          <div class="card" style="padding: 2.5rem; text-align: center; color: var(--text-secondary);">
-            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">承認待ちの操作はありません。</p>
+          <div class="empty-state">
+            <p style="font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">承認待ちの操作はありません。</p>
             <p style="font-size: 0.9rem;">エージェントはすべて順調に動いているか、あるいは指示を待っています。</p>
           </div>
         `;

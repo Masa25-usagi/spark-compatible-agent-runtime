@@ -33,29 +33,31 @@ export async function renderTasks(): Promise<HTMLElement> {
 
       if (tasks.length === 0) {
         tasksContainer.innerHTML = `
-          <div class="card" style="padding: 2.5rem; text-align: center; color: var(--text-secondary);">
-            <p style="font-size: 1.1rem; margin-bottom: 1rem;">作成されたタスクはまだありません。</p>
-            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">「新規タスク作成」ボタンから、エージェントへの指示を作成しましょう。</p>
+          <div class="empty-state">
+            <p style="font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">作成されたタスクはまだありません。</p>
+            <p style="font-size: 0.9rem;">「新規タスク作成」ボタンから、エージェントへの指示を作成しましょう。</p>
           </div>
         `;
       } else {
         const tableContainer = document.createElement('div');
         tableContainer.style.border = '1px solid var(--border)';
-        tableContainer.style.borderRadius = 'var(--radius-md)';
+        tableContainer.style.borderRadius = 'var(--radius-lg)';
         tableContainer.style.overflow = 'hidden';
         tableContainer.style.display = 'flex';
         tableContainer.style.flexDirection = 'column';
+        tableContainer.style.background = 'var(--bg-card)';
+        tableContainer.style.boxShadow = 'var(--shadow-sm)';
 
         tableContainer.innerHTML = `
-          <div style="display: flex; align-items: center; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--text-secondary); font-weight: bold; background: var(--bg-elevated); user-select: none;">
+          <div style="display: flex; align-items: center; padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; letter-spacing: 0.04em; background: var(--bg-elevated); user-select: none;">
             <div style="flex: 2;">タスク名</div>
             <div style="flex: 1; padding: 0 0.5rem;">プロバイダ / モデル</div>
             <div style="width: 100px; text-align: right;">経過時間</div>
           </div>
           <div id="tasks-rows-list" style="display: flex; flex-direction: column;"></div>
-          <div style="padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); border-top: 1px solid var(--border);">
+          <div style="padding: 0.6rem 1rem; font-size: 0.8rem; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); border-top: 1px solid var(--border);">
             <span>全 ${tasks.length} 件中 1-${tasks.length} 件を表示</span>
-            <button id="btn-refresh-list" class="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">更新</button>
+            <button id="btn-refresh-list" class="btn btn-secondary btn-sm">更新</button>
           </div>
         `;
 

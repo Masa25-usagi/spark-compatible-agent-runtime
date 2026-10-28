@@ -27,7 +27,7 @@ export async function renderSkills(): Promise<HTMLElement> {
 
       if (skills.length === 0) {
         grid.innerHTML = `
-          <div class="card" style="padding: 2.5rem; text-align: center; color: var(--text-secondary); grid-column: span 3;">
+          <div class="empty-state" style="grid-column: span 3;">
             登録されているスキルはありません。
           </div>
         `;

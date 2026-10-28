@@ -27,7 +27,7 @@ export async function renderSchedules(): Promise<HTMLElement> {
 
       if (schedules.length === 0) {
         grid.innerHTML = `
-          <div class="card" style="padding: 2.5rem; text-align: center; color: var(--text-secondary); grid-column: span 2;">
+          <div class="empty-state" style="grid-column: span 2;">
             登録されている定期実行スケジュールはありません。
           </div>
         `;

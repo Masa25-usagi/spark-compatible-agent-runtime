@@ -6,8 +6,6 @@ import { escapeHtml } from '../render-utils';
 export function createApprovalCard(approval: ApprovalRecord, onAction?: () => void): HTMLElement {
   const el = document.createElement('div');
   el.className = 'card animate-fade-in';
-  el.style.border = '1px solid var(--border)';
-  el.style.padding = '1.5rem';
   el.style.marginBottom = '1rem';
 
   const disc = approval.disclosure;
@@ -28,12 +26,12 @@ export function createApprovalCard(approval: ApprovalRecord, onAction?: () => vo
     detailsHtml += `
       <div style="color: var(--text-secondary); grid-column: span 2; margin-top: 0.5rem;">変更内容:</div>
       <div style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.25rem;">
-        <div style="background: rgba(234, 67, 53, 0.08); border: 1px solid rgba(234, 67, 53, 0.2); padding: 0.5rem; border-radius: 4px;">
-          <div style="font-size: 0.75rem; color: var(--status-error); margin-bottom: 0.25rem;">変更前 (Before)</div>
+        <div style="background: color-mix(in srgb, var(--status-error) 8%, transparent); border: 1px solid color-mix(in srgb, var(--status-error) 25%, transparent); padding: 0.5rem; border-radius: var(--radius-sm);">
+          <div style="font-size: 0.75rem; color: var(--status-error); margin-bottom: 0.25rem; font-weight: 600;">変更前 (Before)</div>
           <div style="font-size: 0.8rem; white-space: pre-wrap; font-family: monospace;">${escapeHtml(disc.beforeSummary || '（空）')}</div>
         </div>
-        <div style="background: rgba(52, 168, 83, 0.08); border: 1px solid rgba(52, 168, 83, 0.2); padding: 0.5rem; border-radius: 4px;">
-          <div style="font-size: 0.75rem; color: var(--status-complete); margin-bottom: 0.25rem;">変更後 (After)</div>
+        <div style="background: color-mix(in srgb, var(--status-complete) 8%, transparent); border: 1px solid color-mix(in srgb, var(--status-complete) 25%, transparent); padding: 0.5rem; border-radius: var(--radius-sm);">
+          <div style="font-size: 0.75rem; color: var(--status-complete); margin-bottom: 0.25rem; font-weight: 600;">変更後 (After)</div>
           <div style="font-size: 0.8rem; white-space: pre-wrap; font-family: monospace;">${escapeHtml(disc.afterSummary || '（空）')}</div>
         </div>
       </div>
@@ -58,9 +56,9 @@ export function createApprovalCard(approval: ApprovalRecord, onAction?: () => vo
   let confirmHtml = '';
   if (approval.confirmationRequired && approval.status === 'pending') {
     confirmHtml = `
-      <div style="margin-bottom: 1rem; background: rgba(249, 171, 0, 0.08); border: 1px solid rgba(249, 171, 0, 0.2); padding: 0.75rem; border-radius: var(--radius-sm);">
-        <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--status-pending); font-size: 0.85rem; cursor: pointer; user-select: none;">
-          <input type="checkbox" id="confirm-checkbox" style="width: 16px; height: 16px;">
+      <div style="margin-bottom: 1rem; background: color-mix(in srgb, var(--status-pending) 10%, transparent); border: 1px solid color-mix(in srgb, var(--status-pending) 30%, transparent); padding: 0.75rem; border-radius: var(--radius-md);">
+        <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--status-pending); font-size: 0.85rem; cursor: pointer; user-select: none; font-weight: 500;">
+          <input type="checkbox" id="confirm-checkbox" style="width: 16px; height: 16px; accent-color: var(--status-pending);">
           警告: この危険な操作（または一括操作）の内容を理解し、実行を許可します。
         </label>
       </div>
@@ -81,7 +79,7 @@ export function createApprovalCard(approval: ApprovalRecord, onAction?: () => vo
       <button class="btn btn-primary" id="btn-approve" style="display: flex; align-items: center; gap: 0.25rem;">
         実行を承認する
       </button>
-      <button class="btn btn-secondary" id="btn-deny" style="color: var(--status-error); border-color: var(--status-error); display: flex; align-items: center; gap: 0.25rem;">
+      <button class="btn btn-danger-outline" id="btn-deny" style="display: flex; align-items: center; gap: 0.25rem;">
         却下する
       </button>
     </div>
